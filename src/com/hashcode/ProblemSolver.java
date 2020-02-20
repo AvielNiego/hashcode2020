@@ -4,23 +4,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.in;
 
 public class ProblemSolver {
 
     private List<Integer> books;
     private Map<Integer, Integer> libraryScore;
+    private InputData inputData;
 
     public List<LibrarySubmission> solve(InputData inputData) {
         libraryScore = new HashMap<>();
+        this.inputData = inputData;
+        int totalDays = this.inputData.getDaysForScanning();
+
         books = inputData.books;
-
-
-        inputData.libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
-        inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
 
         long s = currentTimeMillis();
         inputData.libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
         long t = currentTimeMillis();
+
+        inputData.libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
+        inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
+
 
         System.out.println(t - s);
 
@@ -34,6 +39,7 @@ public class ProblemSolver {
 
 
     private int getLibraryScore(Library lib1) {
-        return lib1.getBooksIndex().stream().mapToInt(x -> books.get(x)).sum();
+        int daysRemaining = inputData.getDaysForScanning() - lib1.getSignUpTime();
+        return lib1.getBooksIndex().stream().limit(daysRemaining * lib1.getShipsPerDay()).mapToInt(x -> books.get(x)).sum();
     }
 }
