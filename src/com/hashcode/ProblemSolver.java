@@ -19,7 +19,7 @@ public class ProblemSolver {
         inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
 
         long s = currentTimeMillis();
-        inputData.libraries.forEach(l -> books.sort(Comparator.comparingInt(o -> books.get(o))));
+        inputData.libraries.forEach(l -> l.books.sort(Comparator.comparingInt(o -> books.get(o))));
         long t = currentTimeMillis();
 
         System.out.println(t - s);
