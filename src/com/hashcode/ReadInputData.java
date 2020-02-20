@@ -20,23 +20,23 @@ public class ReadInputData {
     public InputData parse() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(filePath));
 
-        var firstLine = br.readLine();
-        var firstLineData = firstLine.split(" ");
+        String firstLine = br.readLine();
+        String[] firstLineData = firstLine.split(" ");
         int booksExistsCount = Integer.parseInt(firstLineData[0]);
         int libraryCount = Integer.parseInt(firstLineData[1]);
         int daysForScanning = Integer.parseInt(firstLineData[2]);
 
-        var secondLine = br.readLine();
-        var books = Arrays.stream(secondLine.split(" ")).map(Integer::parseInt).collect(toList());
+        String secondLine = br.readLine();
+        List<Integer> books = Arrays.stream(secondLine.split(" ")).map(Integer::parseInt).collect(toList());
 
         List<Library> libraries = new ArrayList<>();
         String line;
         while ((line = br.readLine()) != null) {
-            var libraryFirstLine = line.split(" ");
+            String[] libraryFirstLine = line.split(" ");
             int booksCount = Integer.parseInt(libraryFirstLine[0]);
             int signUpTime = Integer.parseInt(libraryFirstLine[1]);
             int shipsPerDay = Integer.parseInt(libraryFirstLine[2]);
-            var booksInLibrary = Arrays.stream(br.readLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+            List<Integer> booksInLibrary = Arrays.stream(br.readLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
             libraries.add(new Library(booksCount, signUpTime, shipsPerDay, booksInLibrary));
         }
 

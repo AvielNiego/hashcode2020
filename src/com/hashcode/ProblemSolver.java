@@ -1,10 +1,9 @@
 package com.hashcode;
 
-public class ProblemSolver {
-    public ProblemSolver(InputData inputData) {
-    }
+import java.util.List;
 
-    public OutputData solve() {
+public class ProblemSolver {
+    public List<LibrarySubmission> solve(InputData inputData) {
         return null;
     }
 }

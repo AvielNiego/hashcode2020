@@ -9,20 +9,8 @@ public class WriteOutputData {
         this.filePath = filePath;
     }
 
-    public void write(OutputData output) {
-
-    }
-}
-
-class OutputData {
-    private List<Integer> pizzaIndexesToOrder;
-
-    public OutputData(List<Integer> pizzaIndexesToOrder) {
-        this.pizzaIndexesToOrder = pizzaIndexesToOrder;
-    }
-
-    public List<Integer> getPizzaIndexesToOrder() {
-        return pizzaIndexesToOrder;
+    public void write(List<LibrarySubmission> librarySubmissions) {
+        int signUpLibrariesCount = librarySubmissions.size();
     }
 }
 
