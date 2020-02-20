@@ -1,36 +1,38 @@
 package com.hashcode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.lang.System.currentTimeMillis;
-import static java.lang.System.in;
 
 public class ProblemSolver {
 
     private List<Integer> books;
     private Map<Integer, Integer> libraryScore;
     private InputData inputData;
+    private Integer remainingDays;
 
     public List<LibrarySubmission> solve(InputData inputData) {
         libraryScore = new HashMap<>();
         this.inputData = inputData;
-        int totalDays = this.inputData.getDaysForScanning();
-
+        remainingDays = this.inputData.getDaysForScanning();
         books = inputData.books;
 
-        long s = currentTimeMillis();
-        inputData.libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
-        long t = currentTimeMillis();
 
-        inputData.libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
-        inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
+        List<LibrarySubmission> chosenLibs = new ArrayList<>();
+        while (remainingDays > 0) {
+            long s = currentTimeMillis();
+            inputData.libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
+            long t = currentTimeMillis();
+            inputData.libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
+            inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
+            Library chosenLib = inputData.libraries.remove(0);
+            chosenLibs.add(new LibrarySubmission(chosenLib.getLibraryIndex(), chosenLib.booksIndex));
+            remainingDays -= chosenLib.getSignUpTime();
+            System.out.println(t - s);
+        }
 
 
-        System.out.println(t - s);
-
-
-        return inputData.libraries.stream().map(l -> new LibrarySubmission(l.getLibraryIndex(), l.booksIndex)).collect(Collectors.toList());
+        return chosenLibs;
     }
 
     private int queryScore(Library lib) {
