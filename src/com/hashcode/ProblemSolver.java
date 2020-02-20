@@ -19,20 +19,25 @@ public class ProblemSolver {
 
 
         List<LibrarySubmission> chosenLibs = new ArrayList<>();
-        while (remainingDays > 0) {
-            long s = currentTimeMillis();
-            inputData.libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
-            long t = currentTimeMillis();
-            inputData.libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
-            inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
-            Library chosenLib = inputData.libraries.remove(0);
+        while (remainingDays > 0 && !inputData.libraries.isEmpty()) {
+            Library chosenLib = getNextLibraryBySortingMethod(inputData.libraries);
             chosenLibs.add(new LibrarySubmission(chosenLib.getLibraryIndex(), chosenLib.booksIndex));
             remainingDays -= chosenLib.getSignUpTime();
-            System.out.println(t - s);
         }
 
 
         return chosenLibs;
+    }
+
+    private Library getNextLibraryBySortingMethod(List<Library> libraries) {
+        long s = currentTimeMillis();
+        libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
+        long t = currentTimeMillis();
+        libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
+        libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
+        Library chosenLib = libraries.remove(0);
+        System.out.println(t - s);
+        return chosenLib;
     }
 
     private int queryScore(Library lib) {
