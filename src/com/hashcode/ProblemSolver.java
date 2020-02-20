@@ -76,7 +76,7 @@ public class ProblemSolver {
         return lib1.getBooksIndex().stream()
                 .filter(bookidx -> !chosenBooks.contains(bookidx))
                 .limit(booksWeCanTakeFromThisLib)
-                .skip(Math.round(fracTime * booksWeCanTakeFromThisLib))
+                .limit(Math.round(fracTime * booksWeCanTakeFromThisLib))
                 ;
     }
 
