@@ -9,10 +9,11 @@ import static java.lang.System.currentTimeMillis;
 public class ProblemSolver {
 
     private List<Integer> books;
-    private Map<Integer, Integer> libraryScore;
+    private Map<Integer, Double> libraryScore;
     private InputData inputData;
     private Integer remainingDays;
     private Set<Integer> chosenBooks;
+    private double avgScorePerDay = 0;
 
     public List<LibrarySubmission> solve(InputData inputData) {
         libraryScore = new HashMap<>();
@@ -20,6 +21,7 @@ public class ProblemSolver {
         remainingDays = this.inputData.getDaysForScanning();
         books = inputData.books;
         chosenBooks = new HashSet<>();
+        avgScorePerDay = inputData.books.stream().mapToDouble(x -> books.get(x)).sum() / remainingDays;
 
 
         List<LibrarySubmission> chosenLibs = new ArrayList<>();
@@ -39,20 +41,21 @@ public class ProblemSolver {
     private Library getNextLibraryBySortingMethod(List<Library> libraries) {
         libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
         libraries.forEach(lib -> libraryScore.put(lib.getLibraryIndex(), getLibraryScore(lib)));
-        libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
+        libraries.sort(Comparator.comparingDouble(this::queryScore).reversed());
         return libraries.remove(0);
     }
 
-    private int queryScore(Library lib) {
+    private double queryScore(Library lib) {
         return libraryScore.get(lib.getLibraryIndex());
     }
 
 
-    private int getLibraryScore(Library lib1) {
+    private double getLibraryScore(Library lib1) {
         Stream<Integer> booksUpToRemainingTime = getBooksUpToRemainingTime(lib1);
-        return booksUpToRemainingTime
+        int libBookSum = booksUpToRemainingTime
                 .mapToInt(x -> books.get(x))
                 .sum();
+        return libBookSum - (lib1.getSignUpTime() * avgScorePerDay);
     }
 
     private Stream<Integer> getBooksUpToRemainingTime(Library lib1) {
