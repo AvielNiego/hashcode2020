@@ -60,7 +60,8 @@ public class ProblemSolver {
                 .mapToInt(x -> books.get(x))
                 .sum();
 
-        return libBookSum - (lib1.getSignUpTime() * avgScorePerDay) + futureBooksScore;
+
+        return libBookSum - (lib1.getSignUpTime() * libBookSum) + futureBooksScore;
     }
 
     private Stream<Integer> getBooksUpToRemainingTime(Library lib1) {
