@@ -39,7 +39,10 @@ public class ProblemSolver {
 
 
     private int getLibraryScore(Library lib1) {
-        int daysRemaining = inputData.getDaysForScanning() - lib1.getSignUpTime();
-        return lib1.getBooksIndex().stream().limit(daysRemaining * lib1.getShipsPerDay()).mapToInt(x -> books.get(x)).sum();
+        long daysRemaining = Math.max(inputData.getDaysForScanning() - lib1.getSignUpTime(), 0);
+        return lib1.getBooksIndex().stream()
+                .limit(daysRemaining * lib1.getShipsPerDay())
+                .mapToInt(x -> books.get(x))
+                .sum();
     }
 }
