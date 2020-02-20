@@ -60,7 +60,7 @@ public class ProblemSolver {
                 .mapToInt(x -> books.get(x))
                 .sum();
 
-        int daysThisLibUses = Math.round(lib1.getBooksCount() / lib1.getShipsPerDay());
+        int daysThisLibUses = remainingDays -  Math.round(lib1.getBooksCount() / lib1.getShipsPerDay());
 
         return libBookSum - (lib1.getSignUpTime() * avgScorePerDay) + daysThisLibUses * avgScorePerDay;
     }
