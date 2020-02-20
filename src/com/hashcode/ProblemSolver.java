@@ -24,8 +24,8 @@ public class ProblemSolver {
 
         List<LibrarySubmission> chosenLibs = new ArrayList<>();
         while (remainingDays > 0 && !inputData.libraries.isEmpty()) {
+            System.out.println("Remaining days " + (remainingDays));
             Library chosenLib = getNextLibraryBySortingMethod(inputData.libraries);
-            chosenBooks.addAll(chosenLib.getBooksIndex());
             List<Integer> booksUpToRemainingTimeFromLib = getBooksUpToRemainingTime(chosenLib).collect(Collectors.toList());
             chosenBooks.addAll(booksUpToRemainingTimeFromLib);
             chosenLibs.add(new LibrarySubmission(chosenLib.getLibraryIndex(), booksUpToRemainingTimeFromLib));
