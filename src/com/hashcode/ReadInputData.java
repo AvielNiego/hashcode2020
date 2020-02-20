@@ -98,13 +98,13 @@ class Library {
     private int signUpTime;
     private int shipsPerDay;
 
-    List<Integer> books;
+    List<Integer> booksIndex;
 
-    public Library(int booksCount, int signUpTime, int shipsPerDay, List<Integer> books, int libraryIndex) {
+    public Library(int booksCount, int signUpTime, int shipsPerDay, List<Integer> booksIndex, int libraryIndex) {
         this.booksCount = booksCount;
         this.signUpTime = signUpTime;
         this.shipsPerDay = shipsPerDay;
-        this.books = books;
+        this.booksIndex = booksIndex;
         this.libraryIndex = libraryIndex;
     }
 
@@ -120,8 +120,8 @@ class Library {
         return shipsPerDay;
     }
 
-    public List<Integer> getBooks() {
-        return books;
+    public List<Integer> getBooksIndex() {
+        return booksIndex;
     }
 
     public int getLibraryIndex() {
@@ -134,7 +134,7 @@ class Library {
                 "booksCount=" + booksCount +
                 ", signUpTime=" + signUpTime +
                 ", shipsPerDay=" + shipsPerDay +
-                ", books=" + books +
+                ", books=" + booksIndex +
                 '}';
     }
 }

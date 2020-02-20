@@ -19,13 +19,13 @@ public class ProblemSolver {
         inputData.libraries.sort(Comparator.comparingInt(this::queryScore).reversed());
 
         long s = currentTimeMillis();
-        inputData.libraries.forEach(l -> l.books.sort(Comparator.comparingInt(o -> books.get(o))));
+        inputData.libraries.forEach(l -> l.booksIndex.sort(Comparator.comparingInt(o -> books.get(o))));
         long t = currentTimeMillis();
 
         System.out.println(t - s);
 
 
-        return inputData.libraries.stream().map(l -> new LibrarySubmission(l.getLibraryIndex(), l.books)).collect(Collectors.toList());
+        return inputData.libraries.stream().map(l -> new LibrarySubmission(l.getLibraryIndex(), l.booksIndex)).collect(Collectors.toList());
     }
 
     private int queryScore(Library lib) {
@@ -34,6 +34,6 @@ public class ProblemSolver {
 
 
     private int getLibraryScore(Library lib1) {
-        return lib1.getBooks().stream().mapToInt(x -> books.get(x)).sum();
+        return lib1.getBooksIndex().stream().mapToInt(x -> books.get(x)).sum();
     }
 }
