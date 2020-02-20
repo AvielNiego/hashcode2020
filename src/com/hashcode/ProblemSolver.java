@@ -21,7 +21,7 @@ public class ProblemSolver {
         remainingDays = this.inputData.getDaysForScanning();
         books = inputData.books;
         chosenBooks = new HashSet<>();
-        avgScorePerDay = inputData.books.stream().mapToDouble(x -> books.get(x)).sum() / remainingDays;
+        avgScorePerDay = inputData.books.stream().mapToDouble(x -> x).sum() / remainingDays;
 
 
         List<LibrarySubmission> chosenLibs = new ArrayList<>();
