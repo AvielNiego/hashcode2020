@@ -29,15 +29,18 @@ public class ReadInputData {
         String secondLine = br.readLine();
         List<Integer> books = Arrays.stream(secondLine.split(" ")).map(Integer::parseInt).collect(toList());
 
+        int lineNumber = 0;
         List<Library> libraries = new ArrayList<>();
         String line;
         while ((line = br.readLine()) != null) {
             String[] libraryFirstLine = line.split(" ");
+            System.out.println(lineNumber);
             int booksCount = Integer.parseInt(libraryFirstLine[0]);
             int signUpTime = Integer.parseInt(libraryFirstLine[1]);
             int shipsPerDay = Integer.parseInt(libraryFirstLine[2]);
             List<Integer> booksInLibrary = Arrays.stream(br.readLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
-            libraries.add(new Library(booksCount, signUpTime, shipsPerDay, booksInLibrary));
+            libraries.add(new Library(booksCount, signUpTime, shipsPerDay, booksInLibrary, libraries.size()));
+            lineNumber++;
         }
 
         return new InputData(booksExistsCount, libraryCount, daysForScanning, books, libraries);
@@ -93,17 +96,19 @@ class InputData {
 }
 
 class Library {
+    private int libraryIndex;
     private int booksCount;
     private int signUpTime;
     private int shipsPerDay;
 
     List<Integer> books;
 
-    public Library(int booksCount, int signUpTime, int shipsPerDay, List<Integer> books) {
+    public Library(int booksCount, int signUpTime, int shipsPerDay, List<Integer> books, int libraryIndex) {
         this.booksCount = booksCount;
         this.signUpTime = signUpTime;
         this.shipsPerDay = shipsPerDay;
         this.books = books;
+        this.libraryIndex = libraryIndex;
     }
 
     public int getBooksCount() {
@@ -120,6 +125,10 @@ class Library {
 
     public List<Integer> getBooks() {
         return books;
+    }
+
+    public int getLibraryIndex() {
+        return libraryIndex;
     }
 
     @Override

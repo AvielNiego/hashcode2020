@@ -1,6 +1,9 @@
 package com.hashcode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WriteOutputData {
     String filePath;
@@ -9,8 +12,12 @@ public class WriteOutputData {
         this.filePath = filePath;
     }
 
-    public void write(List<LibrarySubmission> librarySubmissions) {
-        int signUpLibrariesCount = librarySubmissions.size();
+    public void write(List<LibrarySubmission> librarySubmissions) throws IOException {
+        String firstLine = String.valueOf(librarySubmissions.size());
+        String restOfLines = librarySubmissions.stream()
+                .map(l -> l.getLibraryIndex() + " " + l.getBooksToSend().size() + "\n" + l.getBooksToSend().stream().map(String::valueOf).collect(Collectors.joining(" ")))
+                .collect(Collectors.joining(" "));
+        new FileWriter(filePath).write(firstLine + "\n" + restOfLines);
     }
 }
 
