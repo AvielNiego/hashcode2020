@@ -55,7 +55,12 @@ public class ProblemSolver {
         int libBookSum = booksUpToRemainingTime
                 .mapToInt(x -> books.get(x))
                 .sum();
-        return libBookSum - (lib1.getSignUpTime() * avgScorePerDay);
+
+        int futureBooksScore = getBooksFromXtimeUpToRemainingTime(lib1, 0.5)
+                .mapToInt(x -> books.get(x))
+                .sum();
+
+        return libBookSum - (lib1.getSignUpTime() * avgScorePerDay) + futureBooksScore;
     }
 
     private Stream<Integer> getBooksUpToRemainingTime(Library lib1) {
@@ -66,7 +71,6 @@ public class ProblemSolver {
     }
 
     private Stream<Integer> getBooksFromXtimeUpToRemainingTime(Library lib1, double fracTime) {
-        fracTime = 0.5;
         long daysRemaining = getRemainingDays(lib1);
         long booksWeCanTakeFromThisLib = daysRemaining * lib1.getShipsPerDay();
         return lib1.getBooksIndex().stream()
